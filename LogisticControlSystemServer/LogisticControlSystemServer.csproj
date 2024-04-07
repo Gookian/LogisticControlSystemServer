@@ -12,19 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Enums\" />
-    <Folder Include="Application\Exceptions\" />
-    <Folder Include="Application\Interfaces\" />
-    <Folder Include="Application\UseCases\" />
-    <Folder Include="Domain\Entities\" />
-    <Folder Include="Infrastructure\Interfaces\" />
-    <Folder Include="Infrastructure\Repositories\" />
-    <Folder Include="Presentation\Controllers\" />
+    <Folder Include="Application\Scenarios\" />
     <Folder Include="Presentation\Enums\" />
     <Folder Include="Presentation\Habs\" />
-    <Folder Include="Presentation\Middlewares\" />
-    <Folder Include="Presentation\Models\" />
-    <Folder Include="Utils\Extensions\" />
   </ItemGroup>
 
 </Project>
