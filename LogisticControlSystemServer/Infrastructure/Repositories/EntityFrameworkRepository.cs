@@ -37,9 +37,10 @@ namespace LogisticControlSystemServer.Infrastructure.Repositories
             return entity;
         }
 
-        public TEntity Update(TEntity entity)
+        public TEntity Update(int id, TEntity entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            var entry = _dbSet.Find(id);
+            _context.Entry(entry).CurrentValues.SetValues(entity);
             _context.SaveChanges();
             return entity;
         }

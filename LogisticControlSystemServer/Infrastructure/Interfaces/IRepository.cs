@@ -9,7 +9,7 @@ namespace LogisticControlSystemServer.Infrastructure.Interfaces
         IEnumerable<TEntity> Get();
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
         void Remove(TEntity item);
-        TEntity Update(TEntity item);
+        TEntity Update(int id, TEntity entity);
         IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
         IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
             params Expression<Func<TEntity, object>>[] includeProperties);

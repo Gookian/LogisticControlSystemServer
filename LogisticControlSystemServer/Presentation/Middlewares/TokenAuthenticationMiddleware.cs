@@ -20,7 +20,7 @@ namespace LogisticControlSystemServer.Presentation.Middlewares
             if (requestPath != "/api/Authentication")
             {
                 string? token = context.Request.Headers["Authorization"];
-
+                
                 if (string.IsNullOrEmpty(token))
                 {
                     context.Response.StatusCode = 401;

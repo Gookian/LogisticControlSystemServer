@@ -126,15 +126,15 @@ namespace LogisticControlSystemServer.Presentation.Controllers
             return Ok(created);
         }
 
-        [HttpPut]
-        public ActionResult<TEntity> Update([FromBody] TEntity toUpdate)
+        [HttpPut("{id}")]
+        public ActionResult<TEntity> Update(int id, [FromBody] TEntity toUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var updated = repository.Update(toUpdate);
+            var updated = repository.Update(id, toUpdate);
 
             if (updated == null)
             {
