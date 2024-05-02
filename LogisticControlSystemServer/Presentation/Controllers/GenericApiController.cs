@@ -2,7 +2,9 @@
 using LogisticControlSystemServer.Infrastructure.Interfaces;
 using LogisticControlSystemServer.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Reflection;
+using WebApplicationServer.Presentation.Enums;
 
 namespace LogisticControlSystemServer.Presentation.Controllers
 {
@@ -114,7 +116,7 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
 
         [HttpPost]
-        public ActionResult<TEntity> Create([FromBody] TEntity toCreate)
+        public virtual ActionResult<TEntity> Create([FromBody] TEntity toCreate)
         {
             if (!ModelState.IsValid)
             {
@@ -127,7 +129,7 @@ namespace LogisticControlSystemServer.Presentation.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<TEntity> Update(int id, [FromBody] TEntity toUpdate)
+        public virtual ActionResult<TEntity> Update(int id, [FromBody] TEntity toUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -146,7 +148,7 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
 
         [HttpDelete("{id}")]
-        public ActionResult<TEntity> Delete(int id)
+        public virtual ActionResult<TEntity> Delete(int id)
         {
             var entity = repository.FindById(id);
 
@@ -154,7 +156,6 @@ namespace LogisticControlSystemServer.Presentation.Controllers
             {
                 return NotFound();
             }
-
             repository.Remove(entity);
 
             return Ok(entity);

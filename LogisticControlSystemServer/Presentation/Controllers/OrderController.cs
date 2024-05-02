@@ -1,6 +1,10 @@
 ﻿using LogisticControlSystemServer.Domain.Entities;
 using LogisticControlSystemServer.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using WebApplicationServer.Presentation.Enums;
+using WebApplicationServer.Presentation.Habs;
 
 namespace LogisticControlSystemServer.Presentation.Controllers
 {
@@ -8,8 +12,63 @@ namespace LogisticControlSystemServer.Presentation.Controllers
     [ApiController]
     public class OrderController : GenericApiController<Order>
     {
-        public OrderController(IRepository<Order> repository) : base(repository)
+        private IHubContext<OrderNotificationHub> _hubContext;
+
+        public OrderController(IRepository<Order> repository, IHubContext<OrderNotificationHub> hubContext) : base(repository)
         {
+            _hubContext = hubContext;
+        }
+
+
+        public override ActionResult<Order> Create([FromBody] Order toCreate)
+        {
+            var result = base.Create(toCreate);
+
+            if (result != null)
+            {
+                var okObjectResult = (OkObjectResult)(result.Result);
+
+                if (okObjectResult != null)
+                {
+                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Add);
+                }
+            }
+
+            return result;
+        }
+
+        public override ActionResult<Order> Update(int id, [FromBody] Order toUpdate)
+        {
+            var result = base.Update(id, toUpdate);
+
+            if (result != null)
+            {
+                var okObjectResult = (OkObjectResult)(result.Result);
+
+                if (okObjectResult != null)
+                {
+                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Update);
+                }
+            }
+
+            return result;
+        }
+
+        public override ActionResult<Order> Delete(int id)
+        {
+            var result = base.Delete(id);
+
+            if (result != null)
+            {
+                var okObjectResult = (OkObjectResult)(result.Result);
+
+                if (okObjectResult != null)
+                {
+                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Delete);
+                }
+            }
+
+            return result;
         }
     }
 }

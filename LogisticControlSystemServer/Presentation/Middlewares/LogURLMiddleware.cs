@@ -17,7 +17,19 @@ namespace LogisticControlSystemServer.Presentation.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
             await _next(context);
-            _logger.LogInformation($"[{context.Request.Method}] [{DateTime.Now}] Request URL: {context.Request.GetDisplayUrl()} Response code: {context.Response.StatusCode}");
+
+            context.Request.EnableBuffering();
+            var bodyAsText = await new StreamReader(context.Request.Body).ReadToEndAsync();
+            context.Request.Body.Position = 0;
+
+            if (context.Response.StatusCode == 200)
+            {
+                _logger.LogInformation($"[{context.Request.Method}] [{DateTime.Now}] Request URL: {context.Request.GetDisplayUrl()} Response code: {context.Response.StatusCode}  Reqest Body: {bodyAsText}");
+            }
+            else
+            {
+                _logger.LogError($"[{context.Request.Method}] [{DateTime.Now}] Request URL: {context.Request.GetDisplayUrl()} Response code: {context.Response.StatusCode} Reqest Body: {bodyAsText} Response Body: {context.Response.Body.ToString()}");
+            }
         }
     }
 }

@@ -1,11 +1,5 @@
-﻿using LogisticControlSystemServer.Application.Interfaces;
-using LogisticControlSystemServer.Application.UseCases;
-using LogisticControlSystemServer.Application;
-using LogisticControlSystemServer.Domain.Entities;
-using LogisticControlSystemServer.Infrastructure.Interfaces;
-using LogisticControlSystemServer.Infrastructure.Repositories;
-using LogisticControlSystemServer.Utils.Extensions;
-using Microsoft.EntityFrameworkCore;
+﻿using LogisticControlSystemServer.Utils.Extensions;
+using WebApplicationServer.Presentation.Habs;
 
 namespace LogisticControlSystemServer
 {
@@ -25,6 +19,7 @@ namespace LogisticControlSystemServer
             });
 
             services.AddControllers();
+            services.AddSignalR();
 
             services.AddInfrastructureLayer();
             services.AddApplicationLayer();
@@ -48,6 +43,15 @@ namespace LogisticControlSystemServer
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "api/{controller=Order}/{action=GetAll}/{id?}");
+
+                endpoints.MapHub<DeliveryPointNotificationHub>("/DeliveryPointNotificationHub");
+                endpoints.MapHub<FlightNotificationHub>("/FlightNotificationHub");
+                endpoints.MapHub<OrderNotificationHub>("/OrderNotificationHub");
+                endpoints.MapHub<PackageNotificationHub>("/PackageNotificationHub");
+                endpoints.MapHub<ProductDataNotificationHub>("/ProductDataNotificationHub");
+                endpoints.MapHub<ProductNotificationHub>("/ProductNotificationHub");
+                endpoints.MapHub<VehicleNotificationHub>("/VehicleNotificationHub");
+                endpoints.MapHub<WarehouseNotificationHub>("/WarehouseNotificationHub");
             });
         }
     }
