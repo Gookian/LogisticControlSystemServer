@@ -15,6 +15,7 @@ namespace LogisticControlSystemServer.Utils.Extensions
             services.AddSingleton<IRepository<DeliveryPoint>, EntityFrameworkRepository<DeliveryPoint>>();
             services.AddSingleton<IRepository<Flight>, EntityFrameworkRepository<Flight>>();
             services.AddSingleton<IRepository<Order>, EntityFrameworkRepository<Order>>();
+            services.AddSingleton<IRepository<OrderPickUpPoint>, EntityFrameworkRepository<OrderPickUpPoint>>();
             services.AddSingleton<IRepository<OrderDetail>, EntityFrameworkRepository<OrderDetail>>();
             services.AddSingleton<IRepository<Package>, EntityFrameworkRepository<Package>>();
             services.AddSingleton<IRepository<PackageState>, EntityFrameworkRepository<PackageState>>();
@@ -25,6 +26,7 @@ namespace LogisticControlSystemServer.Utils.Extensions
             services.AddSingleton<IRepository<ProductState>, EntityFrameworkRepository<ProductState>>();
             services.AddSingleton<IRepository<Vehicle>, EntityFrameworkRepository<Vehicle>>();
             services.AddSingleton<IRepository<Warehouse>, EntityFrameworkRepository<Warehouse>>();
+            services.AddSingleton<IRepository<SortingСenter>, EntityFrameworkRepository<SortingСenter>>();
 
             return services;
         }

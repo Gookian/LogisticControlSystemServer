@@ -53,6 +53,8 @@ namespace LogisticControlSystemServer
                 endpoints.MapHub<ProductNotificationHub>("/ProductNotificationHub");
                 endpoints.MapHub<VehicleNotificationHub>("/VehicleNotificationHub");
                 endpoints.MapHub<WarehouseNotificationHub>("/WarehouseNotificationHub");
+                endpoints.MapHub<OrderPickUpPointNotificationHub>("/OrderPickUpPointNotificationHub");
+                endpoints.MapHub<SortingСenterNotificationHub>("/SortingСenterNotificationHub");
             });
         }
     }

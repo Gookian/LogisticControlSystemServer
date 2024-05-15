@@ -8,9 +8,11 @@ namespace LogisticControlSystemServer.Infrastructure.Repositories
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderPickUpPoint> OrderPickUpPoints { get; set; }
         public DbSet<ProductData> ProductDatas { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductState> ProductStates { get; set; }
+        public DbSet<SortingСenter> SortingСenters { get; set; }
         public DbSet<ProductInWarehouse> ProductInWarehouses { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<Package> Packages { get; set; }

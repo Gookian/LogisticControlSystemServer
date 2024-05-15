@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using LogisticControlSystemServer.Infrastructure.Interfaces;
+using LogisticControlSystemServer.Domain.Entities;
 
 namespace LogisticControlSystemServer.Infrastructure.Repositories
 {
