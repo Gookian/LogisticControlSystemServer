@@ -14,6 +14,7 @@ namespace LogisticControlSystemServer.Utils.Extensions
         {
             services.AddSingleton<TokenManager>();
             services.AddSingleton<IAuthenticationUseCase, AuthenticationUseCase>();
+            services.AddSingleton<IRemoveAuthenticationUseCase, RemoveAuthenticationUseCase>();
             services.AddSingleton<ITokenValidationUseCase, TokenValidationUseCase>();
 
             return services;

@@ -2,6 +2,7 @@
 using LogisticControlSystemServer.Application.Exceptions;
 using LogisticControlSystemServer.Application.Interfaces;
 using LogisticControlSystemServer.Presentation.Models;
+using LogisticControlSystemServer.Application.UseCases;
 
 namespace LogisticControlSystemServer.Presentation.Controllers
 {
@@ -9,11 +10,13 @@ namespace LogisticControlSystemServer.Presentation.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private IAuthenticationUseCase _useCase;
+        private IAuthenticationUseCase _authenticationUseCase;
+        private IRemoveAuthenticationUseCase _removeAuthenticationUseCase;
 
-        public AuthenticationController(IAuthenticationUseCase useCase)
+        public AuthenticationController(IAuthenticationUseCase authenticationUseCase, IRemoveAuthenticationUseCase removeAuthenticationUseCase)
         {
-            _useCase = useCase;
+            _authenticationUseCase = authenticationUseCase;
+            _removeAuthenticationUseCase = removeAuthenticationUseCase;
         }
 
         [HttpGet]
@@ -21,9 +24,24 @@ namespace LogisticControlSystemServer.Presentation.Controllers
         {
             try
             {
-                Guid token = _useCase.Invoke(username, password);
+                Guid token = _authenticationUseCase.Invoke(username, password);
 
                 return Ok(token);
+            }
+            catch (AuthenticationException e)
+            {
+                return NotFound(new ErrorModel(e.StatusCode, e.Message));
+            }
+        }
+
+        [HttpDelete]
+        public ActionResult Delete(string tokenValue)
+        {
+            try
+            {
+                _removeAuthenticationUseCase.Invoke(tokenValue);
+
+                return Ok();
             }
             catch (AuthenticationException e)
             {

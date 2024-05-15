@@ -45,6 +45,22 @@ namespace LogisticControlSystemServer.Application
             }
         }
 
+        public void RemoveToken(string tokenValue)
+        {
+            Guid guid = new Guid();
+            bool valid = Guid.TryParse(tokenValue, out guid);
+
+            if (valid)
+            {
+                Token? token = tokens.FirstOrDefault(x => x.Value == guid);
+
+                if (token != null)
+                {
+                    tokens.Remove(token);
+                }
+            }
+        }
+
         private void UpdateTokens(object? source, ElapsedEventArgs e)
         {
             List<Token> removeTokens = new List<Token>();

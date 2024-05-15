@@ -18,5 +18,21 @@ namespace LogisticControlSystemServer.Domain.Entities
         [Validate(pattern: @"^(\d+)$", maxLength: 20)]
         [Description(title: "Цена", hint: "Введите цену товара")]
         public int Cost { get; set; }
+
+        [Validate(pattern: @"^(\d+|\d+\,\d+)$", maxLength: 25)]
+        [Description(title: "Ширина", hint: "Введите ширину товара")]
+        public float Width { get; set; }
+
+        [Validate(pattern: @"^(\d+|\d+\,\d+)$", maxLength: 25)]
+        [Description(title: "Высота", hint: "Введите высоту товара")]
+        public float Height { get; set; }
+
+        [Validate(pattern: @"^(\d+|\d+\,\d+)$", maxLength: 25)]
+        [Description(title: "Глубина", hint: "Введите глубину товара")]
+        public float Depth { get; set; }
+
+        [Validate(pattern: @"^(\d+|\d+\,\d+)$", maxLength: 25)]
+        [Description(title: "Вес", hint: "Введите вес товара")]
+        public float Weight { get; set; }
     }
 }

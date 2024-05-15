@@ -6,7 +6,7 @@ namespace LogisticControlSystemServer
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
-        {/*
+        {
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1",
@@ -17,7 +17,6 @@ namespace LogisticControlSystemServer
                     Version = "v1"
                 });
             });
-            */
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             services.AddControllers();
@@ -29,12 +28,12 @@ namespace LogisticControlSystemServer
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
-           /* app.UseSwagger();
+            app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo API");
                 options.RoutePrefix = "";
-            });*/
+            });
 
             app.UseLogUrl();
             app.UseTokenAuthentication();
