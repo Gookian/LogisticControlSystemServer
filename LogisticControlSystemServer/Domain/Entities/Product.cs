@@ -7,10 +7,12 @@ namespace LogisticControlSystemServer.Domain.Entities
         public int ProductId { get; set; }
 
         // Внешние ключи
-        [StringValue("Тип товара")]
+        [Validate(pattern: @"^(\d+)$")]
+        [Description(title: "Тип товара", hint: "Выберите тип твара")]
         public int ProductDataId { get; set; }
 
-        [StringValue("Состояние товара")]
+        [Validate(pattern: @"^(\d+)$")]
+        [Description(title: "Состояние товара", hint: "Выберите состояние товара")]
         public int ProductStateId { get; set; }
 
         // Ссылки на объекты внешнего ключа

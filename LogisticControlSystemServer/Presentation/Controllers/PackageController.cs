@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using WebApplicationServer.Presentation.Enums;
 using WebApplicationServer.Presentation.Habs;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace LogisticControlSystemServer.Presentation.Controllers
 {
@@ -21,15 +22,20 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
         public override ActionResult<Package> Create([FromBody] Package toCreate)
         {
-            var result = base.Create(toCreate);
+            ActionResult<Package> result = base.Create(toCreate);
 
-            if (result != null)
+            if (result.Result is OkObjectResult)
             {
-                var okObjectResult = (OkObjectResult)(result.Result);
+                var package = (result.Result as OkObjectResult)?.Value as Package;
 
-                if (okObjectResult != null)
+                if (package != null)
                 {
-                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Add);
+                    var packageResult = GetOne(package.PackageId);
+                    var packageWithInclude = (packageResult.Result as OkObjectResult)?.Value as Package;
+
+                    _hubContext.Clients.All.SendAsync("NotificationCallback", packageWithInclude, UpdateType.Add);
+
+                    return packageResult;
                 }
             }
 
@@ -38,16 +44,16 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
         public override ActionResult<Package> Update(int id, [FromBody] Package toUpdate)
         {
-            var result = base.Update(id, toUpdate);
+            ActionResult<Package> result = base.Update(id, toUpdate);
+            ActionResult<Package> packageResult = GetOne(id);
 
-            if (result != null)
+            if (packageResult.Result is OkObjectResult && result.Result is OkObjectResult)
             {
-                var okObjectResult = (OkObjectResult)(result.Result);
+                var packageWithInclude = (packageResult.Result as OkObjectResult)?.Value as Package;
 
-                if (okObjectResult != null)
-                {
-                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Update);
-                }
+                _hubContext.Clients.All.SendAsync("NotificationCallback", packageWithInclude, UpdateType.Update);
+
+                return packageResult;
             }
 
             return result;
@@ -55,16 +61,16 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
         public override ActionResult<Package> Delete(int id)
         {
-            var result = base.Delete(id);
+            ActionResult<Package> packageResult = GetOne(id);
+            ActionResult<Package> result = base.Delete(id);
 
-            if (result != null)
+            if (packageResult.Result is OkObjectResult && result.Result is OkObjectResult)
             {
-                var okObjectResult = (OkObjectResult)(result.Result);
+                var packageWithInclude = (packageResult.Result as OkObjectResult)?.Value as Package;
 
-                if (okObjectResult != null)
-                {
-                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Delete);
-                }
+                _hubContext.Clients.All.SendAsync("NotificationCallback", packageWithInclude, UpdateType.Delete);
+
+                return packageResult;
             }
 
             return result;

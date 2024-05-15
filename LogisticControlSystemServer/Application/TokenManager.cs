@@ -34,7 +34,7 @@ namespace LogisticControlSystemServer.Application
 
             if (existingTokenUser == null)
             {
-                Token token = new Token(user, 0, 5, 30);
+                Token token = new Token(user, 3, 5, 30);
                 tokens.Add(token);
 
                 return token.Value;

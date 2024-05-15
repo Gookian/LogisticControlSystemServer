@@ -6,14 +6,14 @@ namespace LogisticControlSystemServer.Domain.Entities
     {
         public int OrderDetailId { get; set; }
 
-        [StringValue("Количество")]
+        //[StringValue("Количество")]
         public int Count { get; set; }
 
         // Внешние ключи
-        [StringValue("Номер заказ")]
+        //[StringValue("Номер заказ")]
         public int OrderId { get; set; }
 
-        [StringValue("Тип товара")]
+        //[StringValue("Тип товара")]
         public int ProductDataId { get; set; }
 
         // Ссылки на объекты внешнего ключа

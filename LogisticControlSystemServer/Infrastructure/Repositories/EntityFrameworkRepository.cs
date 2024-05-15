@@ -34,6 +34,7 @@ namespace LogisticControlSystemServer.Infrastructure.Repositories
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
+
             return entity;
         }
 

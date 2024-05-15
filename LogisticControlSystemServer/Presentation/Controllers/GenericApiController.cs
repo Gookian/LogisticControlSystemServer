@@ -55,17 +55,26 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
             foreach (PropertyInfo property in properties)
             {
-                var attribute = Attribute.GetCustomAttribute(property, typeof(StringValueAttribute)) as StringValueAttribute;
+                var attribute = Attribute.GetCustomAttribute(property, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                var validateAttribute = Attribute.GetCustomAttribute(property, typeof(ValidateAttribute)) as ValidateAttribute;
 
-                if (attribute != null)
+                if (attribute != null && validateAttribute != null)
                 {
-                    string title = attribute.Value;
+                    string title = attribute.Title;
+                    string hint = attribute.Hint;
+                    int min = validateAttribute.MinLength;
+                    int max = validateAttribute.MaxLength;
+                    string pattern = validateAttribute.Pattern;
 
                     results.Add(new StructureItemModel()
                     {
                         Type = property.PropertyType.Name,
                         Name = property.Name,
                         Title = title,
+                        Hint = hint,
+                        Max = max,
+                        Min = min,
+                        Pattern = pattern
                     });
                 }
             }
@@ -125,7 +134,14 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
             var created = repository.Create(toCreate);
 
-            return Ok(created);
+            if (created != null)
+            {
+                return Ok(created);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("{id}")]

@@ -6,14 +6,17 @@ namespace LogisticControlSystemServer.Domain.Entities
     {
         public int ProductDataId { get; set; }
 
-        [StringValue("Арткул")]
+        [Validate(pattern: @"^([а-яёА-ЯЁa-zA-Z]{2}-\d{8})$", minLength: 11, maxLength: 11)]
+        [Description(title: "Арткул", hint: "Введите артикул в формате XX-12345678")]
         public string Article { get; set; }
 
         [IdTargetValue]
-        [StringValue("Название")]
+        [Validate(pattern: @"^([а-яёА-ЯЁa-zA-Z0-9]|\s)*$", maxLength: 60)]
+        [Description(title: "Название", hint: "Введите название товара")]
         public string Name { get; set; }
 
-        [StringValue("Цена")]
+        [Validate(pattern: @"^(\d+)$", maxLength: 20)]
+        [Description(title: "Цена", hint: "Введите цену товара")]
         public int Cost { get; set; }
     }
 }

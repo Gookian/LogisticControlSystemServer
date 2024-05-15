@@ -1,6 +1,7 @@
 ﻿using LogisticControlSystemServer.Domain.Entities;
 using LogisticControlSystemServer.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.SignalR;
 using WebApplicationServer.Presentation.Enums;
 using WebApplicationServer.Presentation.Habs;
@@ -20,15 +21,20 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
         public override ActionResult<Product> Create([FromBody] Product toCreate)
         {
-            var result = base.Create(toCreate);
+            ActionResult<Product> result = base.Create(toCreate);
 
-            if (result != null)
+            if (result.Result is OkObjectResult)
             {
-                var okObjectResult = (OkObjectResult)(result.Result);
+                var product = (result.Result as OkObjectResult)?.Value as Product;
 
-                if (okObjectResult != null)
+                if (product != null)
                 {
-                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Add);
+                    var productResult = GetOne(product.ProductId);
+                    var productWithInclude = (productResult.Result as OkObjectResult)?.Value as Product;
+
+                    _hubContext.Clients.All.SendAsync("NotificationCallback", productWithInclude, UpdateType.Add);
+
+                    return productResult;
                 }
             }
 
@@ -37,16 +43,16 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
         public override ActionResult<Product> Update(int id, [FromBody] Product toUpdate)
         {
-            var result = base.Update(id, toUpdate);
+            ActionResult<Product> result = base.Update(id, toUpdate);
+            ActionResult<Product> productResult = GetOne(id);
 
-            if (result != null)
+            if (productResult.Result is OkObjectResult && result.Result is OkObjectResult)
             {
-                var okObjectResult = (OkObjectResult)(result.Result);
+                var productWithInclude = (productResult.Result as OkObjectResult)?.Value as Product;
 
-                if (okObjectResult != null)
-                {
-                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Update);
-                }
+                _hubContext.Clients.All.SendAsync("NotificationCallback", productWithInclude, UpdateType.Update);
+
+                return productResult;
             }
 
             return result;
@@ -54,16 +60,16 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 
         public override ActionResult<Product> Delete(int id)
         {
-            var result = base.Delete(id);
+            ActionResult<Product> productResult = GetOne(id);
+            ActionResult<Product> result = base.Delete(id);
 
-            if (result != null)
+            if (productResult.Result is OkObjectResult && result.Result is OkObjectResult)
             {
-                var okObjectResult = (OkObjectResult)(result.Result);
+                var productWithInclude = (productResult.Result as OkObjectResult)?.Value as Product;
 
-                if (okObjectResult != null)
-                {
-                    _hubContext.Clients.All.SendAsync("NotificationCallback", okObjectResult.Value, UpdateType.Delete);
-                }
+                _hubContext.Clients.All.SendAsync("NotificationCallback", productWithInclude, UpdateType.Delete);
+
+                return productResult;
             }
 
             return result;

@@ -10,7 +10,8 @@ namespace LogisticControlSystemServer.Domain.Entities
         public string Number { get; set; }
 
         // Внешние ключи
-        [StringValue("Транспортное средство")]
+        [Validate(pattern: @"^(\d+)$")]
+        [Description(title: "Транспортное средство", hint: "Выберите транспортное средство")]
         public int VehicleId { get; set; }
 
         // Ссылки на объекты внешнего ключа
