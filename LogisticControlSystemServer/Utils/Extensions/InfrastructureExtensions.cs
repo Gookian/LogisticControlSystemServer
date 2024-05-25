@@ -26,7 +26,7 @@ namespace LogisticControlSystemServer.Utils.Extensions
             services.AddSingleton<IRepository<ProductState>, EntityFrameworkRepository<ProductState>>();
             services.AddSingleton<IRepository<Vehicle>, EntityFrameworkRepository<Vehicle>>();
             services.AddSingleton<IRepository<Warehouse>, EntityFrameworkRepository<Warehouse>>();
-            services.AddSingleton<IRepository<SortingСenter>, EntityFrameworkRepository<SortingСenter>>();
+            services.AddSingleton<IRepository<SortingCenter>, EntityFrameworkRepository<SortingCenter>>();
 
             return services;
         }

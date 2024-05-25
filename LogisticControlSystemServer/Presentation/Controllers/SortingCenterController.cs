@@ -9,17 +9,17 @@ namespace LogisticControlSystemServer.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SortingСenterController : GenericApiController<SortingСenter>
+    public class SortingCenterController : GenericApiController<SortingCenter>
     {
-        private IHubContext<SortingСenterNotificationHub> _hubContext;
+        private IHubContext<SortingCenterNotificationHub> _hubContext;
 
-        public SortingСenterController(IRepository<SortingСenter> repository, IHubContext<SortingСenterNotificationHub> hubContext) : base(repository)
+        public SortingCenterController(IRepository<SortingCenter> repository, IHubContext<SortingCenterNotificationHub> hubContext) : base(repository)
         {
             _hubContext = hubContext;
         }
 
 
-        public override ActionResult<SortingСenter> Create([FromBody] SortingСenter toCreate)
+        public override ActionResult<SortingCenter> Create([FromBody] SortingCenter toCreate)
         {
             var result = base.Create(toCreate);
 
@@ -36,7 +36,7 @@ namespace LogisticControlSystemServer.Presentation.Controllers
             return result;
         }
 
-        public override ActionResult<SortingСenter> Update(int id, [FromBody] SortingСenter toUpdate)
+        public override ActionResult<SortingCenter> Update(int id, [FromBody] SortingCenter toUpdate)
         {
             var result = base.Update(id, toUpdate);
 
@@ -53,7 +53,7 @@ namespace LogisticControlSystemServer.Presentation.Controllers
             return result;
         }
 
-        public override ActionResult<SortingСenter> Delete(int id)
+        public override ActionResult<SortingCenter> Delete(int id)
         {
             var result = base.Delete(id);
 

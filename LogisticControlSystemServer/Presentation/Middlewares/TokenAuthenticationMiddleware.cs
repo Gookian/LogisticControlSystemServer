@@ -16,8 +16,7 @@ namespace LogisticControlSystemServer.Presentation.Middlewares
         public async Task Invoke(HttpContext context)
         {
             string requestPath = context.Request.Path;
-
-            if (requestPath != "/api/Authentication")
+            if (requestPath != "/api/Authentication" && requestPath != "/api/Registration")
             {
                 string? token = context.Request.Headers["Authorization"];
                 

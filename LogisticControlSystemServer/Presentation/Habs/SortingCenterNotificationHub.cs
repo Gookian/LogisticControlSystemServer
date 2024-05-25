@@ -2,7 +2,7 @@
 
 namespace WebApplicationServer.Presentation.Habs
 {
-    public class SortingСenterNotificationHub : Hub
+    public class SortingCenterNotificationHub : Hub
     {
     }
 }

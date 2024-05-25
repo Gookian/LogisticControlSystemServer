@@ -2,9 +2,9 @@
 
 namespace LogisticControlSystemServer.Domain.Entities
 {
-    public class SortingСenter
+    public class SortingCenter
     {
-        public int SortingСenterId { get; set; }
+        public int SortingCenterId { get; set; }
 
         [IdTargetValue]
         [Validate(pattern: @"^([а-яёА-ЯЁa-zA-Z0-9]|\s)*$", maxLength: 70)]
